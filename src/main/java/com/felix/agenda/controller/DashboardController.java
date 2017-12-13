@@ -7,12 +7,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/dashboard")
-public class DashboardController {
+public class DashboardController extends DefaultController{
 
 	@GetMapping
 	public ModelAndView inicio() {
 		ModelAndView modelAndView = new ModelAndView("dashboard/dashboard");
 		modelAndView.addObject("nomePagina", "Dashbaord");
+		modelAndView.addObject("usuario", userSession.getCurrentUser(usuarioService));
 		return modelAndView;
 	}
 

@@ -39,7 +39,7 @@ public class LoginController {
 	public ModelAndView login(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		ModelAndView modelAndView = new ModelAndView();
 	
-		Usuario user = usuarioService.findUserByEmail(usuario.getUsername());
+		Usuario user = usuarioService.findUserByUsername(usuario.getUsername());
 		
 		if(user != null) {
 			result.rejectValue("username", "error.user", "Usu\u00e1rio j\u00e1 cadastrado no sistema");

@@ -18,7 +18,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public Usuario findUserByEmail(String username) {
+	public Usuario findUserByUsername(String username) {
 		return usuarioRepository.findByUsername(username);
 	}
 
