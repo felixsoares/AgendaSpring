@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base/layout}">
+<head>
+</head>
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+		<div class="row">
+	        <div class="col-md-12">
+	            <nav aria-label="breadcrumb" role="navigation">
+			  		<ol class="breadcrumb">
+				    	<li class="breadcrumb-item"><a th:href="@{/dashboard/contatos}">Contatos</a></li>
+				    	<li class="breadcrumb-item active" aria-current="page" th:text="${contato.nome}">[[NOME DO CONTATO]]</li>
+			  		</ol>
+				</nav>
+            </div>
+        </div>
+        
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="card ">
+	                <div class="header">
+	                    <p class="category">Informações pessoais</p>
+	                </div>
+	                <div class="content">
+                    	<div class="row">
+                        	<div class="col-md-6">
+                                 <div class="form-group">
+                                     <label>Nome</label>
+                                     <input type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:value="${contato.nome}">
+                                 </div>
+                             </div>
+                             <div class="col-md-6">
+                                 <div class="form-group">
+                                     <label>Telefone</label>
+                                     <input type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:value="${contato.telefone}">
+                                 </div>
+                             </div>
+                    	</div>
+                    	<div class="row">
+                        	<div class="col-md-12">
+                                 <div class="form-group">
+                                     <label>Endereço</label>
+                                     <textarea type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:text="${contato.endereco}"></textarea>
+                                 </div>
+                             </div>
+                    	</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div class="row">
+	    	<div class="col-md-12">
+	    		<div class="card ">
+	    			<div class="header">
+	                    <p class="category">Tarefas associadas a este contato</p>
+	                </div>
+	                <div class="content">
+	    				<div class="row">
+                        	<div class="col-md-12">
+		                    	<div class="table-full-width">
+			                        <table class="table">
+			                            <tbody>
+			                                <tr th:each="tarefa : ${tarefas}">
+			                                    <td width="10">
+													<div class="checkbox">
+													  	<input th:id="@{|check${tarefa.id}|}" type="checkbox" th:checked="${tarefa.check}" disabled="disabled">
+													  	<label th:for="@{|check${tarefa.id}|}"></label>
+											  		</div>
+			                                    </td>
+			                                    <td th:text="${tarefa.titulo}">[[TITULO]]</td>
+			                                </tr>
+				                            <tr th:if="${tarefas.empty}">
+												<td colspan="1">Nenhuma tarefa cadastrada</td>
+											</tr>
+			                            </tbody>
+			                        </table>
+			                    </div>
+		                    </div>
+	                    </div>
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+	</div>   	
+</body>
+</html>

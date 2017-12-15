@@ -6,4 +6,5 @@ import com.felix.agenda.model.Tarefa;
 
 public interface TarefaService {
 	public List<Tarefa> findContatoByUser(Long id);
+	public List<Tarefa> findByContato(Long id, Long idContato);
 }

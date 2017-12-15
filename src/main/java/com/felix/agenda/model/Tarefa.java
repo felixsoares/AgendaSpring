@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -22,19 +24,21 @@ public class Tarefa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank
 	public String titulo;
-	
+
 	@Column(name = "is_active", nullable = false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean check;
-	
+
 	public String descricao;
-	
-	@OneToMany
+
+	@ManyToMany
+	@JoinTable(name = "tarefa_contato", inverseJoinColumns = @JoinColumn(name = "contato_id", referencedColumnName = "id"))
+	@JoinColumn(name = "tarefa_id", referencedColumnName = "id")
 	public List<Contato> contatos;
-	
+
 	@OneToOne
 	@NotNull
 	public Usuario usuario;
@@ -54,7 +58,7 @@ public class Tarefa {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	
+
 	public boolean isCheck() {
 		return check;
 	}
@@ -74,7 +78,7 @@ public class Tarefa {
 	public List<Contato> getContatos() {
 		return contatos;
 	}
-	
+
 	public void setContatos(List<Contato> contatos) {
 		this.contatos = contatos;
 	}

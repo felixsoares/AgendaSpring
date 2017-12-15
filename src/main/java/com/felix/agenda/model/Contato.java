@@ -1,9 +1,12 @@
 package com.felix.agenda.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -29,7 +32,18 @@ public class Contato {
 	@OneToOne
 	@NotNull
 	public Usuario usuario;
+	
+	@ManyToMany(mappedBy = "contatos")
+	public List<Tarefa> tarefas;
 
+	public List<Tarefa> getTarefas() {
+		return tarefas;
+	}
+	
+	public void setTarefas(List<Tarefa> tarefas) {
+		this.tarefas = tarefas;
+	}
+	
 	public Long getId() {
 		return id;
 	}

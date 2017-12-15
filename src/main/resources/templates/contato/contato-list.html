@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base/layout}">
+<head>
+</head>
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="card ">
+	                <div class="header">
+	                    <h4 class="title">Lista de Contatos</h4>
+	                    <p class="category">Contatos cadastrados</p>
+	                </div>
+	                <div class="content">
+	                    <table class="table table-hover">
+                        	<thead>
+	                            <tr>
+		                            <th>ID</th>
+		                        	<th>Nome</th>
+		                        	<th>Telefone</th>
+		                        	<th>Endereço</th>
+		                        	<th width="10%" style="text-align: center;">Ações</th>
+                        		</tr>
+                        	</thead>
+                        	<tbody>
+	                            <tr th:each="contato : ${contatos}">
+	                            	<td th:text="${contato.id}">[[ID]]</td>
+	                            	<td>
+	                            		<a th:text="${contato.nome}" th:href="@{contatos/{id}/info(id=${contato.id})}">[[NOME]]</a>
+	                            	</td>
+	                            	<td th:text="${contato.telefone}">[[TELEFONE]]</td>
+	                            	<td th:text="${contato.endereco}">[[ENDEREÇO]]</td>
+	                            	<td style="text-align: center;">
+	                            		<button type="button" rel="tooltip" title="" class="btn btn-info btn-simple btn-xs" data-original-title="Editar">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remover">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+	                            	</td>
+	                            </tr>
+	                            <tr th:if="${contatos.empty}">
+									<td colspan="4">Nenhum contato cadastrado</td>
+								</tr>
+                        	</tbody>
+                    	</table>
+                    	<div class="footer">
+	                       <hr>
+	                       <div class="stats">
+	                           <i class="fa fa-history"></i> <text th:text="${#lists.size(contatos)}"></text> Contatos
+	              			</div>
+	                 	</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>   	
+</body>
+</html>

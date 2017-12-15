@@ -40,7 +40,7 @@
                     	<div class="footer">
 	                       <hr>
 	                       <div class="stats">
-	                           <i class="fa fa-history"></i> <text th:text="${#lists.size(contatos)}"></text> Contas
+	                           <i class="fa fa-history"></i> <text th:text="${#lists.size(contatos)}"></text> Contatos
 	              			</div>
 	                 	</div>
 	                </div>
@@ -59,7 +59,7 @@
 	                                <tr th:each="tarefa : ${tarefas}">
 	                                    <td width="10">
 											<div class="checkbox">
-											  	<input th:id="@{|check${tarefa.id}|}" type="checkbox" th:checked="${tarefa.check}">
+											  	<input th:id="@{|check${tarefa.id}|}" type="checkbox" th:checked="${tarefa.check}" disabled="disabled">
 											  	<label th:for="@{|check${tarefa.id}|}"></label>
 									  		</div>
 	                                    </td>

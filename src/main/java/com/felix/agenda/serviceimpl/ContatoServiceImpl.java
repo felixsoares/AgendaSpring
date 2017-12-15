@@ -3,6 +3,7 @@ package com.felix.agenda.serviceimpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.felix.agenda.model.Contato;
@@ -17,8 +18,17 @@ public class ContatoServiceImpl implements ContatoService{
 
 	@Override
 	public List<Contato> findContatoByUser(Long id) {
-		return contatoRepository.findByUsuario(id);
+		return contatoRepository.findByUsuario(id, new PageRequest(0, 10));
+	}
+
+	@Override
+	public List<Contato> findAll() {
+		return contatoRepository.findAll();
+	}
+
+	@Override
+	public Contato findById(Long id) {
+		return contatoRepository.findOne(id);
 	}
 	
-
 }
