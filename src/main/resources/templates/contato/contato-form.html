@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base/layout}">
+<head>
+</head>
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="card ">
+	                <div class="header">
+	                    <p class="category">Informações pessoais</p>
+	                </div>
+	                <div class="content">
+	                	<form method="post" th:object="${contato}" th:action="@{/dashboard/contatos/salvar}">
+	                		<div th:if="${#fields.hasAnyErrors()}">
+		                		<div class="alert alert-danger alert-dismissible" role="alert" th:each="erro : ${#fields.detailedErrors()}">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									
+									<div>
+										<i class="fa fa-exclamation-circle"></i>
+										<span th:text="${erro.message}">[[MENSAGEM ERRO]]</span>
+									</div>
+								</div>
+							</div>
+							
+							<input type="hidden" th:field="*{id}"/>
+							
+		                	<div class="row">
+	                        	<div class="col-md-6">
+	                                 <div class="form-group">
+	                                     <label>Nome</label>
+	                                     <input type="text" class="form-control" th:field="*{nome}" placeholder="Nome">
+	                                 </div>
+	                             </div>
+	                             <div class="col-md-6">
+	                                 <div class="form-group">
+	                                     <label>Telefone</label>
+	                                     <input type="text" class="form-control" th:field="*{telefone}" placeholder="Telefone">
+	                                 </div>
+	                             </div>
+	                    	</div>
+	                    	<div class="row">
+	                        	<div class="col-md-12">
+	                                 <div class="form-group">
+	                                     <label>Endereço</label>
+	                                     <textarea type="text" class="form-control" th:field="*{endereco}" placeholder="Endereço"></textarea>
+	                                 </div>
+	                             </div>
+	                    	</div>
+	                    	
+	                    	<button type="submit" class="btn btn-success btn-fill pull-right">Salvar</button>
+	                        <div class="clearfix"></div>
+	                	</form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>   	
+</body>
+</html>

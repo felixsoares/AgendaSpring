@@ -8,4 +8,5 @@ public interface ContatoService {
 	public List<Contato> findContatoByUser(Long id);
 	public List<Contato> findAll();
 	public Contato findById(Long id);
+	public void save(Contato contato);
 }

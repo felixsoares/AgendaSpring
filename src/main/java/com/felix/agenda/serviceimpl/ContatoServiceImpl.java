@@ -30,5 +30,10 @@ public class ContatoServiceImpl implements ContatoService{
 	public Contato findById(Long id) {
 		return contatoRepository.findOne(id);
 	}
+
+	@Override
+	public void save(Contato contato) {
+		contatoRepository.save(contato);
+	}
 	
 }

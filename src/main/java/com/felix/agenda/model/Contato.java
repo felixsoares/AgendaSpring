@@ -30,7 +30,6 @@ public class Contato {
 	public String endereco;
 
 	@OneToOne
-	@NotNull
 	public Usuario usuario;
 	
 	@ManyToMany(mappedBy = "contatos")
