@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -97,7 +96,7 @@ public class ContatoController extends DefaultController {
 			contatoService.delete(id);
 			attributes.addFlashAttribute("tipo", "success");
 			attributes.addFlashAttribute("mensagem", "Contato excluido com sucesso");
-		} catch (ConstraintViolationException e) {
+		} catch (Exception e) {
 			attributes.addFlashAttribute("tipo", "danger");
 			attributes.addFlashAttribute("mensagem", "Contato não pode ser excluído pois está vinculado a uma Tarefa");
 		}
