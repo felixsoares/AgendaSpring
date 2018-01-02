@@ -35,5 +35,10 @@ public class ContatoServiceImpl implements ContatoService{
 	public void save(Contato contato) {
 		contatoRepository.save(contato);
 	}
+
+	@Override
+	public void delete(Long id) {
+		contatoRepository.delete(id);
+	}
 	
 }

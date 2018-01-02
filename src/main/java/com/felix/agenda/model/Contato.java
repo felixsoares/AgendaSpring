@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.google.gson.Gson;
+
 @Entity
 @Table(name = "contato")
 public class Contato {

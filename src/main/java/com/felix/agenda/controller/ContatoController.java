@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,33 +23,33 @@ import com.felix.agenda.service.TarefaService;
 
 @Controller
 @RequestMapping("/dashboard/contatos")
-public class ContatoController extends DefaultController{
+public class ContatoController extends DefaultController {
 
 	@Autowired
 	private ContatoService contatoService;
-	
+
 	@Autowired
 	private TarefaService tarefaService;
-	
+
 	@GetMapping
 	@Override
 	public ModelAndView inicio() {
 		Usuario user = userSession.getCurrentUser(usuarioService);
 		List<Contato> contatos = contatoService.findAll();
-		
+
 		ModelAndView modelAndView = new ModelAndView("contato/contato-list");
 		modelAndView.addObject("nomePagina", "Contatos");
 		modelAndView.addObject("usuario", user);
 		modelAndView.addObject("contatos", contatos);
-		
+
 		return modelAndView;
 	}
-	
+
 	@GetMapping("/{id}/info")
 	public ModelAndView remover(@PathVariable Long id) {
 		Usuario user = userSession.getCurrentUser(usuarioService);
 		Contato contato = contatoService.findById(id);
-		
+
 		ModelAndView modelAndView = new ModelAndView("contato/contato-info");
 		modelAndView.addObject("contato", contato);
 		modelAndView.addObject("nomePagina", "Informações do Contato");
@@ -55,37 +57,52 @@ public class ContatoController extends DefaultController{
 		modelAndView.addObject("usuario", user);
 		return modelAndView;
 	}
-	
+
 	@GetMapping("/novo")
 	public ModelAndView adicionar(Contato contato) {
 		Usuario user = userSession.getCurrentUser(usuarioService);
-		
+
 		ModelAndView modelAndView = new ModelAndView("contato/contato-form");
 		modelAndView.addObject("contato", contato);
 		modelAndView.addObject("nomePagina", "Cadastro de Contato");
 		modelAndView.addObject("usuario", user);
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/salvar")
 	public ModelAndView salvar(@Valid Contato contato, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			return adicionar(contato);
 		}
-		
+
 		Usuario user = userSession.getCurrentUser(usuarioService);
 		contato.setUsuario(user);
-		
+
 		contatoService.save(contato);
-		
+
+		attributes.addFlashAttribute("tipo", "success");
 		attributes.addFlashAttribute("mensagem", "Contato salvo com sucesso!");
-		
+
 		return new ModelAndView("redirect:/dashboard/contatos/");
 	}
-	
+
 	@GetMapping("/editar/{id}")
 	public ModelAndView editar(@PathVariable Long id) {
 		return adicionar(contatoService.findById(id));
+	}
+
+	@DeleteMapping("/{id}")
+	public ModelAndView excluir(@PathVariable Long id, RedirectAttributes attributes) {
+		try {
+			contatoService.delete(id);
+			attributes.addFlashAttribute("tipo", "success");
+			attributes.addFlashAttribute("mensagem", "Contato excluido com sucesso");
+		} catch (ConstraintViolationException e) {
+			attributes.addFlashAttribute("tipo", "danger");
+			attributes.addFlashAttribute("mensagem", "Contato não pode ser excluído pois está vinculado a uma Tarefa");
+		}
+
+		return new ModelAndView("redirect:/dashboard/contatos/");
 	}
 
 }
