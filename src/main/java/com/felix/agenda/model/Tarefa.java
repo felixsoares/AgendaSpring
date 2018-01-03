@@ -1,5 +1,6 @@
 package com.felix.agenda.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,7 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
@@ -31,6 +31,11 @@ public class Tarefa {
 	@Column(name = "is_active", nullable = false)
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean check;
+	
+	@Column(name="date_check")
+	public Date dateCheck;
+	
+	public Date lembrete;
 
 	public String descricao;
 
@@ -40,7 +45,6 @@ public class Tarefa {
 	public List<Contato> contatos;
 
 	@OneToOne
-	@NotNull
 	public Usuario usuario;
 
 	public Long getId() {
@@ -50,7 +54,23 @@ public class Tarefa {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public Date getLembrete() {
+		return lembrete;
+	}
+	
+	public void setLembrete(Date lembrete) {
+		this.lembrete = lembrete;
+	}
+	
+	public Date getDateCheck() {
+		return dateCheck;
+	}
 
+	public void setDateCheck(Date dateCheck) {
+		this.dateCheck = dateCheck;
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}

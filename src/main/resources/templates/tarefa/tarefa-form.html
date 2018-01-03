@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base/layout}">
+<head>
+</head>
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="card ">
+	                <div class="header">
+	                    <p class="category">Informações</p>
+	                </div>
+	                <div class="content">
+	                	<form method="post" th:object="${tarefa}" th:action="@{/dashboard/tarefas/salvar}">
+	                		<div th:if="${#fields.hasAnyErrors()}">
+		                		<div class="alert alert-danger alert-dismissible" role="alert" th:each="erro : ${#fields.detailedErrors()}">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									
+									<div>
+										<i class="fa fa-exclamation-circle"></i>
+										<span th:text="${erro.message}">[[MENSAGEM ERRO]]</span>
+									</div>
+								</div>
+							</div>
+							
+							<input type="hidden" th:field="*{id}"/>
+							
+		                	<div class="row">
+	                        	<div class="col-md-12">
+	                                 <div class="form-group">
+	                                     <label>Título</label>
+	                                     <input type="text" class="form-control" th:field="*{titulo}" placeholder="Titulo">
+	                                 </div>
+	                             </div>
+	                    	</div>
+	                    	<div class="row">
+	                    		<div class="col-md-1 col-sm-2 col-xs-6">
+                                	<div class="form-group">
+	                                     <label>Status</label>
+	                                     <div style="margin-top: 10px;">
+										  	<label style="display: block; padding-left: 15px; text-indent: -15px;">
+											  	<input id="check" type="checkbox" th:field="*{check}" style="width: 13px; height: 13px; padding: 0; margin:0; vertical-align: bottom; position: relative; top: -2px; *overflow: hidden;">
+											  	Feito!
+										  	</label>
+								  		</div>
+                                	</div>
+                             	</div>
+                             	<div class="col-md-4 col-sm-4 col-xs-6">
+                                	<div class="form-group">
+                                    	<label>Lembrete / Horário</label>
+                                    	<div class="input-group">
+									    	<input type="text" class="form-control" id="data" th:field="*{lembrete}" placeholder="20/12/2018 15:00">
+										    <div class="input-group-addon">
+										        <span class="pe-7s-stopwatch"></span>
+										    </div>
+										</div>
+									</div>
+                             	</div>
+	                    		<div class="col-md-7 col-sm-8 col-xs-12">
+	                    			<div class="form-group">
+		                    			<label>Contatos</label>
+		                    			<div>
+			                    			<select id="demo" class="form-control" multiple="multiple" th:field="*{contatos}">
+											        <option th:each="contato : ${contatosList}"
+											                th:field="*{contatos}" 
+											                th:value="${contato.id}" 
+											                th:text="${contato.nome}">
+											                [[NOME]]
+											        </option>
+											</select>
+										</div>
+									</div>
+	                    		</div>
+	                    	</div>
+	                    	<div class="row">
+	                        	<div class="col-md-12">
+	                                 <div class="form-group">
+	                                     <label>Descrição</label>
+	                                     <textarea type="text" class="form-control" th:field="*{descricao}" placeholder="Descrição"></textarea>
+	                                 </div>
+	                             </div>
+	                    	</div>
+	                    	
+	                    	<div class="pull-right">
+		                    	<a th:href="@{/dashboard/tarefas}" class="btn btn-default btn-fill">Voltar</a>
+		                    	<button type="submit" class="btn btn-success btn-fill">Salvar</button>
+	                    	</div>
+	                    	
+	                        <div class="clearfix"></div>
+	                	</form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<th:block layout:fragment="script">
+       	<script>
+          	$(document).ready(function() {
+       			$('#demo').multiselect();
+       			$('#data').mask("99/99/9999 99:99");
+  			});
+   		</script>
+	</th:block>
+</body>
+</html>

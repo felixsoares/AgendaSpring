@@ -12,34 +12,43 @@
 	        <div class="col-md-12">
 	            <div class="card ">
 	                <div class="header">
-	                    <p class="category">Informações pessoais</p>
+	                    <p class="category">Informações da tarefa</p>
 	                </div>
 	                <div class="content">
                     	<div class="row">
-                        	<div class="col-md-6">
+                        	<div class="col-md-12">
                                  <div class="form-group">
-                                     <label>Nome</label>
-                                     <input type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:value="${contato.nome}">
+                                     <label>Titulo</label>
+                                     <input type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:value="${tarefa.titulo}">
                                  </div>
                              </div>
+                    	</div>
+                    	<div class="row">
                              <div class="col-md-6">
-                                 <div class="form-group">
-                                     <label>Telefone</label>
-                                     <input type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:value="${contato.telefone}">
-                                 </div>
+                             	<label>Status</label>
+                             	<div class="checkbox">
+								  	<input th:id="@{|check${tarefa.id}|}" type="checkbox" th:checked="${tarefa.check}" disabled="disabled" style="background: #fff; cursor: auto;">
+								  	<label th:for="@{|check${tarefa.id}|}"></label>
+						  		</div>
+                             </div>
+                             <div class="col-md-6">
+                             	<label>Lembrete / Horário</label>
+                             	<div>
+								  	<label th:text="${#dates.format(tarefa.lembrete,'dd/MM/yyyy HH:mm')}"></label>
+						  		</div>
                              </div>
                     	</div>
                     	<div class="row">
                         	<div class="col-md-12">
                                  <div class="form-group">
                                      <label>Descrição</label>
-                                     <textarea type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:text="${contato.endereco}"></textarea>
+                                     <textarea type="text" class="form-control" style="background: #fff; cursor: auto;" disabled="disabled" th:text="${tarefa.descricao}"></textarea>
                                  </div>
                              </div>
                     	</div>
                     	
                     	<div class="pull-right">
-	                    	<a th:href="@{/dashboard/contatos}" class="btn btn-default btn-fill">Voltar</a>
+	                    	<a th:href="@{/dashboard/tarefas}" class="btn btn-default btn-fill">Voltar</a>
                     	</div>
                     	
                         <div class="clearfix"></div>
@@ -52,25 +61,26 @@
 	    	<div class="col-md-12">
 	    		<div class="card ">
 	    			<div class="header">
-	                    <p class="category">Tarefas associadas a este contato</p>
+	                    <p class="category">Contatos associados a esta Tarefa</p>
 	                </div>
 	                <div class="content">
 	    				<div class="row">
                         	<div class="col-md-12">
 		                    	<div class="table-full-width">
 			                        <table class="table table-hover">
+				                        <thead>
+					                        <tr>
+					                        	<th>Nome</th>
+					                        	<th>Telefone</th>
+					                        </tr>
+				                        </thead>
 			                            <tbody>
-			                                <tr th:each="tarefa : ${tarefas}">
-			                                    <td width="10">
-													<div class="checkbox">
-													  	<input th:id="@{|check${tarefa.id}|}" type="checkbox" th:checked="${tarefa.check}" disabled="disabled">
-													  	<label th:for="@{|check${tarefa.id}|}"></label>
-											  		</div>
-			                                    </td>
-			                                    <td th:text="${tarefa.titulo}">[[TITULO]]</td>
+			                                <tr th:each="contato : ${tarefa.contatos}">
+			                                    <td th:text="${contato.nome}">[[NOME]]</td>
+			                                    <td th:text="${contato.telefone}">[[TELEFONE]]</td>
 			                                </tr>
-				                            <tr th:if="${tarefas.empty}">
-												<td colspan="1">Nenhuma tarefa</td>
+				                            <tr th:if="${tarefa.contatos.empty}">
+												<td colspan="2">Nenhum contato</td>
 											</tr>
 			                            </tbody>
 			                        </table>

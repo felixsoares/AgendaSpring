@@ -15,6 +15,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css" type="text/css">
 
     <!-- Animation library for notifications -->
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/animate.min.css}" />
@@ -36,16 +37,10 @@
 <body>
 
 	<div class="wrapper">
-	    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
-	
-		    <!--
-		        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
-		        Tip 2: you can also add an image using data-image tag
-		    -->
-	
+	    <div class="sidebar" data-color="purple">
 	    	<div class="sidebar-wrapper">
 	            <div class="logo">
-	                <a href="http://www.creative-tim.com" class="simple-text">
+	                <a th:href="@{/dashboard}" class="simple-text">
 	                    Agenda
 	                </a>
 	            </div>
@@ -63,16 +58,10 @@
 	                        <p>Contatos</p>
 	                    </a>
 	                </li>
-	                <li>
-	                    <a href="#">
+	                <li th:classappend="${#httpServletRequest.getRequestURI().contains('/tarefas') ? 'active':''}">
+	                    <a th:href="@{/dashboard/tarefas}">
 	                        <i class="pe-7s-news-paper"></i>
 	                        <p>Tarefas</p>
-	                    </a>
-	                </li>
-					<li class="active-pro">
-	                    <a href="#">
-	                        <i class="pe-7s-user"></i>
-	                        <p>Perfil</p>
 	                    </a>
 	                </li>
 	            </ul>
@@ -101,6 +90,11 @@
 									</p>
                               	</a>
                               	<ul class="dropdown-menu">
+                              		<li>
+	                                	<a>
+			                                <p>Perfil</p>
+			                            </a>
+									</li>
                                 	<li>
 	                                	<a th:href="@{/logout}">
 			                                <p>Log out</p>
@@ -145,6 +139,8 @@
 	
 	<!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
 	<script th:src="@{/assets/js/light-bootstrap-dashboard.js?v=1.4.0}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
 	
 	<!-- Light Bootstrap Table DEMO methods, don't include it in your project! -->
 	<script th:src="@{/assets/js/demo.js}"></script>

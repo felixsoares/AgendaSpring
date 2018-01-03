@@ -1,7 +1,5 @@
 package com.felix.agenda.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.felix.agenda.model.Contato;
-import com.felix.agenda.model.Usuario;
 import com.felix.agenda.service.ContatoService;
 import com.felix.agenda.service.TarefaService;
+import com.felix.agenda.util.CustomModelAndView;
 
 @Controller
 @RequestMapping("/dashboard/contatos")
@@ -32,61 +30,52 @@ public class ContatoController extends DefaultController {
 
 	@GetMapping
 	@Override
-	public ModelAndView inicio() {
-		Usuario user = userSession.getCurrentUser(usuarioService);
-		List<Contato> contatos = contatoService.findAll();
-
-		ModelAndView modelAndView = new ModelAndView("contato/contato-list");
+	public CustomModelAndView inicio() {
+		CustomModelAndView modelAndView = new CustomModelAndView(userSession, usuarioService, "contato/contato-list");
 		modelAndView.addObject("nomePagina", "Contatos");
-		modelAndView.addObject("usuario", user);
-		modelAndView.addObject("contatos", contatos);
+		modelAndView.addObject("contatos", contatoService.findByUser(modelAndView.getUser().getId()));
 
 		return modelAndView;
 	}
 
 	@GetMapping("/{id}/info")
-	public ModelAndView remover(@PathVariable Long id) {
-		Usuario user = userSession.getCurrentUser(usuarioService);
+	public CustomModelAndView remover(@PathVariable Long id) {
 		Contato contato = contatoService.findById(id);
 
-		ModelAndView modelAndView = new ModelAndView("contato/contato-info");
+		CustomModelAndView modelAndView = new CustomModelAndView(userSession, usuarioService, "contato/contato-info");
 		modelAndView.addObject("contato", contato);
 		modelAndView.addObject("nomePagina", "Informações do Contato");
-		modelAndView.addObject("tarefas", tarefaService.findByContato(user.getId(), contato.getId()));
-		modelAndView.addObject("usuario", user);
+		modelAndView.addObject("tarefas", tarefaService.findByContato(modelAndView.getUser().getId(), contato.getId()));
 		return modelAndView;
 	}
 
 	@GetMapping("/novo")
-	public ModelAndView adicionar(Contato contato) {
-		Usuario user = userSession.getCurrentUser(usuarioService);
-
-		ModelAndView modelAndView = new ModelAndView("contato/contato-form");
+	public CustomModelAndView adicionar(Contato contato) {
+		CustomModelAndView modelAndView = new CustomModelAndView(userSession, usuarioService, "contato/contato-form");
 		modelAndView.addObject("contato", contato);
 		modelAndView.addObject("nomePagina", "Cadastro de Contato");
-		modelAndView.addObject("usuario", user);
 		return modelAndView;
 	}
 
 	@PostMapping("/salvar")
-	public ModelAndView salvar(@Valid Contato contato, BindingResult result, RedirectAttributes attributes) {
+	public CustomModelAndView salvar(@Valid Contato contato, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {
 			return adicionar(contato);
 		}
 
-		Usuario user = userSession.getCurrentUser(usuarioService);
-		contato.setUsuario(user);
+		CustomModelAndView modelAndView = new CustomModelAndView(userSession, usuarioService, "redirect:/dashboard/contatos/");
+		contato.setUsuario(modelAndView.getUser());
 
 		contatoService.save(contato);
 
 		attributes.addFlashAttribute("tipo", "success");
 		attributes.addFlashAttribute("mensagem", "Contato salvo com sucesso!");
 
-		return new ModelAndView("redirect:/dashboard/contatos/");
+		return modelAndView;
 	}
 
 	@GetMapping("/editar/{id}")
-	public ModelAndView editar(@PathVariable Long id) {
+	public CustomModelAndView editar(@PathVariable Long id) {
 		return adicionar(contatoService.findById(id));
 	}
 

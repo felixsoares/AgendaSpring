@@ -12,14 +12,14 @@
 	        <div class="col-md-12">
 	            <div class="card ">
 	                <div class="header">
-	                    <h4 class="title">Lista de Contatos</h4>
-	                    <p class="category">Contatos cadastrados</p>
+	                    <h4 class="title">Lista de Tarefas</h4>
+	                    <p class="category">Tarefas cadastrados</p>
 	                </div>
-	                <div class="content" id="contatos">
+	                <div class="content" id="tarefas">
 	                	<div class="row">
 	                		<div class="col-md-12 pull-right">
 	                			<a id="filtrobtn" class="btn btn-fill btn-default">Filtro <i class="fa fa-filter" aria-hidden="true"></i> </a>
-	                			<a th:href="@{/dashboard/contatos/novo}" class="btn btn-fill btn-info">Novo <i class="fa fa-plus" aria-hidden="true"></i> </a>
+	                			<a th:href="@{/dashboard/tarefas/novo}" class="btn btn-fill btn-info">Novo <i class="fa fa-plus" aria-hidden="true"></i> </a>
 	                		</div>
 	                	</div>
 	                	
@@ -49,29 +49,38 @@
 		                    <table class="table table-hover">
 	                        	<thead>
 		                            <tr>
-			                            <th>ID</th>
-			                        	<th>Nome</th>
-			                        	<th>Telefone</th>
-			                        	<th>Endereço</th>
-			                        	<th width="150" style="text-align: center;">Ações</th>
+			                        	<th>Status</th>
+			                        	<th>Titulo</th>
+			                        	<th width="150" style="text-align: center;">Horário</th>
+			                        	<th width="200" style="text-align: center;">Ações</th>
 	                        		</tr>
 	                        	</thead>
 	                        	<tbody class="list">
-		                            <tr th:each="contato : ${contatos}">
-		                            	<td th:text="${contato.id}">[[ID]]</td>
+		                            <tr th:each="tarefa : ${tarefas}">
+		                            	<td width="10">
+											<div class="checkbox">
+											  	<input th:id="@{|check${tarefa.id}|}" type="checkbox" th:checked="${tarefa.check}" disabled="disabled" style="background: #fff; cursor: auto;">
+											  	<label th:for="@{|check${tarefa.id}|}"></label>
+									  		</div>
+	                                    </td>
 		                            	<td>
-		                            		<a th:text="${contato.nome}" class="nome" th:href="@{/dashboard/contatos/{id}/info(id=${contato.id})}">[[NOME]]</a>
+		                            		<a th:text="${tarefa.titulo}" class="titulo" th:href="@{/dashboard/tarefas/{id}/info(id=${tarefa.id})}">
+		                            		[[TITULO]]
+		                            		</a>
 		                            	</td>
-		                            	<td><p th:text="${contato.telefone}" class="telefone">[[TELEFONE]]</p></td>
-		                            	<td><p th:text="${contato.endereco}" class="endereco">[[ENDEREÇO]]</p></td>
+		                            	<td style="text-align: center;" class="lembrete" th:text="${#dates.format(tarefa.lembrete,'dd/MM/yyyy HH:mm')}"></td>
 		                            	<td style="text-align: center;">
 	                                        <form method="POST"
-												th:onsubmit="'return confirm(\'Posso remover ' + ${contato.nome} + '?\');'"
-												th:action="@{/dashboard/contatos/{id}(id=${contato.id})}">
+												th:onsubmit="'return confirm(\'Posso remover ' + ${tarefa.titulo} + '?\');'"
+												th:action="@{/dashboard/tarefas/{id}(id=${tarefa.id})}">
 												
 												<input type="hidden" name="_method" value="DELETE" />
+		                                        
+												<a th:href="@{/dashboard/tarefas/marcar/{id}(id=${tarefa.id})}" rel="tooltip" title="" class="btn btn-success btn-simple" data-original-title="Feito / Desfeito">
+		                                            <i th:classappend="${tarefa.check} ? 'fa fa-times' : 'fa fa-check'"></i>
+		                                        </a>
 												
-												<a th:href="@{/dashboard/contatos/editar/{id}(id=${contato.id})}" rel="tooltip" title="" class="btn btn-info btn-simple" data-original-title="Editar">
+												<a th:href="@{/dashboard/tarefas/editar/{id}(id=${tarefa.id})}" rel="tooltip" title="" class="btn btn-info btn-simple" data-original-title="Editar">
 		                                            <i class="fa fa-edit"></i>
 		                                        </a>
 		                                        
@@ -81,34 +90,11 @@
 	                                        </form>
 		                            	</td>
 		                            </tr>
-		                            <tr th:if="${contatos.empty}">
-										<td colspan="4">Nenhum contato cadastrado</td>
+		                            <tr th:if="${tarefas.empty}">
+										<td colspan="4">Nenhuma tarefa cadastrada</td>
 									</tr>
 	                        	</tbody>
 	                    	</table>
-	                    	
-	                    	<div id="myModal" class="modal fade" role="dialog">
-						  		<div class="modal-dialog">
-							    	<div class="modal-content">
-							      		<div class="modal-header">
-							        		<button type="button" class="close" data-dismiss="modal">&times;</button>
-							        		<h4 class="modal-title">Exclusão de Contato</h4>
-							      		</div>
-							      		<form th:action="@{/dashboard/contatos/}" method="post">
-							      			<input type="hidden" name="_method" value="DELETE" />
-							      			<!--  <input type="hidden" id="idContato" name="id" value="0"/>	-->						      			
-								      		<div class="modal-body">
-								        		<p>Esta opção não pode ser desfeita, deseja realmente excluir este contato?</p>
-								      		</div>
-									      	<div class="modal-footer">
-									        	<a class="btn btn-default btn-fill" data-dismiss="modal">Cancelar</a>
-									        	<button type="submit" class="btn btn-danger btn-fill">Excluir</button>
-									      	</div>
-								      	</form>
-								    </div>
-							  	</div>
-							</div>
-
                     	</div>
                     	<div class="footer">
 	                       <hr>
@@ -131,17 +117,12 @@
           	        div.toggle();
           	    });
   				
-				var userList = new List('contatos', {
-					valueNames: ['nome', 'telefone', 'endereco'],
+				var userList = new List('tarefas', {
+					valueNames: ['titulo', 'lembrete'],
 					  page: 10,
 					  pagination: true
 				});
   			});
-          	
-          	function excluir(id){
-          		$("#idContato").val(id);
-          		$('#myModal').appendTo("body").modal('show');
-          	}
    		</script>
 	</th:block>
 </body>

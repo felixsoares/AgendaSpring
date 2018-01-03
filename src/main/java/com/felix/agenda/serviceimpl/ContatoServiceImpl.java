@@ -17,7 +17,7 @@ public class ContatoServiceImpl implements ContatoService{
 	private ContatoRepository contatoRepository;
 
 	@Override
-	public List<Contato> findContatoByUser(Long id) {
+	public List<Contato> findByUser(Long id) {
 		return contatoRepository.findByUsuario(id, new PageRequest(0, 10));
 	}
 
