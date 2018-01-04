@@ -19,7 +19,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
-
 @Entity
 @Table(name = "tarefa")
 public class Tarefa {
@@ -30,6 +29,7 @@ public class Tarefa {
 	private Long id;
 
 	@NotBlank
+	@Column(name="titulo")
 	public String titulo;
 
 	@Column(name = "is_active", nullable = false)
@@ -40,9 +40,11 @@ public class Tarefa {
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date dateCheck;
 	
+	@Column(name="lembrete")
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date lembrete;
 
+	@Column(name="descricao")
 	public String descricao;
 
 	@ManyToMany
