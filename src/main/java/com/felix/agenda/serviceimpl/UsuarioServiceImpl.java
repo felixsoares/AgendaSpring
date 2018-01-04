@@ -9,13 +9,13 @@ import com.felix.agenda.repository.UsuarioRepository;
 import com.felix.agenda.service.UsuarioService;
 
 @Service("usuarioService")
-public class UsuarioServiceImpl implements UsuarioService{
-	
+public class UsuarioServiceImpl implements UsuarioService {
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
 	public Usuario findUserByUsername(String username) {
@@ -24,9 +24,17 @@ public class UsuarioServiceImpl implements UsuarioService{
 
 	@Override
 	public void salvar(Usuario usuario) {
-		usuario.setSenha(bCryptPasswordEncoder.encode(usuario.getSenha()));
+		if (usuario.isNecessarioEncriptarSenha()) {
+			usuario.setSenha(bCryptPasswordEncoder.encode(usuario.getSenha()));
+		}
+
 		usuario.setAtivo(true);
 		usuarioRepository.save(usuario);
+	}
+
+	@Override
+	public Usuario findUserById(Long id) {
+		return usuarioRepository.findOne(id);
 	}
 
 }

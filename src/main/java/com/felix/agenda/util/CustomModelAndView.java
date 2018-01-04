@@ -16,6 +16,11 @@ public class CustomModelAndView extends ModelAndView {
 		addObject("usuario", user);
 	}
 	
+	public CustomModelAndView(UserSession userSession, UsuarioService usuarioService){
+		setUser(userSession.getCurrentUser(usuarioService));
+		addObject("usuario", user);
+	}
+	
 	public Usuario getUser() {
 		return user;
 	}

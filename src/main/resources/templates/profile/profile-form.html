@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base/layout}">
+<head>
+</head>
+<body>
+	<div class="container-fluid" layout:fragment="conteudo">
+	    <div class="row">
+	        <div class="col-md-12">
+	            <div class="card ">
+	                <div class="header">
+	                    <p class="category">Informações pessoais</p>
+	                </div>
+	                <div class="content">
+	                	<form method="post" th:object="${usuario}" th:action="@{/dashboard/profile/salvar}">
+	                		<div th:if="${#fields.hasAnyErrors()}">
+		                		<div class="alert alert-danger alert-dismissible" role="alert" th:each="erro : ${#fields.detailedErrors()}">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									
+									<div>
+										<i class="fa fa-exclamation-circle"></i>
+										<span th:text="${erro.message}">[[MENSAGEM ERRO]]</span>
+									</div>
+								</div>
+							</div>
+							
+							<div th:if="${!#strings.isEmpty(mensagem)}">
+			                	<div th:class="${'alert alert-' + tipo}">
+			                		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+										
+									<div>
+										<i class="fa fa-check-circle"></i>
+										<span th:text="${mensagem}">[[MENSAGEM SUCESSO]]</span>
+									</div>
+								</div>
+							</div>
+							
+							<input type="hidden" th:field="*{id}"/>
+							
+		                	<div class="row">
+	                        	<div class="col-md-4">
+	                                 <div class="form-group">
+	                                     <label>Nome</label>
+	                                     <input type="text" class="form-control" th:field="*{nome}" placeholder="Nome">
+	                                 </div>
+	                             </div>
+	                             <div class="col-md-4">
+	                                 <div class="form-group">
+	                                     <label>Senha</label>
+	                                     <input type="password" class="form-control" th:field="*{senha}" placeholder="Senha">
+	                                 </div>
+	                             </div>
+	                    	</div>
+	                    	
+	                    	<div class="pull-right">
+		                    	<button type="submit" class="btn btn-success btn-fill">Salvar</button>
+	                    	</div>
+	                    	
+	                        <div class="clearfix"></div>
+	                	</form>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>   	
+</body>
+</html>

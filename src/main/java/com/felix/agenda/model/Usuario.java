@@ -5,8 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -14,7 +16,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Usuario {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(generator = "increment")
+	@GenericGenerator(name = "increment", strategy = "increment")
 	private Long id;
 	
 	@NotBlank
@@ -28,6 +31,17 @@ public class Usuario {
 	
 	@NotBlank
 	public String senha;
+	
+	@Transient
+	public boolean necessarioEncriptarSenha = true;
+	
+	public boolean isNecessarioEncriptarSenha() {
+		return necessarioEncriptarSenha;
+	}
+	
+	public void setNecessarioEncriptarSenha(boolean necessarioEncriptarSenha) {
+		this.necessarioEncriptarSenha = necessarioEncriptarSenha;
+	}
 
 	public String getNome() {
 		return nome;
