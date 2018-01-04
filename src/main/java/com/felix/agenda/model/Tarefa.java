@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +19,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.felix.agenda.util.LocalDateTimeConverter;
 
 @Entity
 @Table(name = "tarefa")
@@ -38,10 +41,12 @@ public class Tarefa {
 	
 	@Column(name="date_check")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Convert(converter = LocalDateTimeConverter.class)
 	public Date dateCheck;
 	
 	@Column(name="lembrete")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Convert(converter = LocalDateTimeConverter.class)
 	public Date lembrete;
 
 	@Column(name="descricao")
