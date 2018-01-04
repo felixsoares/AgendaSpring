@@ -1,6 +1,6 @@
 package com.felix.agenda.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,8 +13,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -40,14 +38,12 @@ public class Tarefa {
 	public boolean check;
 	
 	@Column(name="date_check")
-	@Temporal(TemporalType.TIMESTAMP)
 	@Convert(converter = LocalDateTimeConverter.class)
-	public Date dateCheck;
+	public LocalDateTime dateCheck;
 	
 	@Column(name="lembrete")
-	@Temporal(TemporalType.TIMESTAMP)
 	@Convert(converter = LocalDateTimeConverter.class)
-	public Date lembrete;
+	public LocalDateTime lembrete;
 
 	@Column(name="descricao")
 	public String descricao;
@@ -68,19 +64,19 @@ public class Tarefa {
 		this.id = id;
 	}
 	
-	public Date getLembrete() {
+	public LocalDateTime getLembrete() {
 		return lembrete;
 	}
 	
-	public void setLembrete(Date lembrete) {
+	public void setLembrete(LocalDateTime lembrete) {
 		this.lembrete = lembrete;
 	}
 	
-	public Date getDateCheck() {
+	public LocalDateTime getDateCheck() {
 		return dateCheck;
 	}
 
-	public void setDateCheck(Date dateCheck) {
+	public void setDateCheck(LocalDateTime dateCheck) {
 		this.dateCheck = dateCheck;
 	}
 	
