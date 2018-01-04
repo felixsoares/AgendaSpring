@@ -1,10 +1,8 @@
 package com.felix.agenda.model;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,8 +15,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
-
-import com.felix.agenda.util.LocalDateTimeConverter;
 
 @Entity
 @Table(name = "tarefa")
@@ -37,13 +33,13 @@ public class Tarefa {
 	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean check;
 	
-	@Column(name="date_check")
+	/*@Column(name="date_check")
 	@Convert(converter = LocalDateTimeConverter.class)
 	public LocalDateTime dateCheck;
 	
 	@Column(name="lembrete")
 	@Convert(converter = LocalDateTimeConverter.class)
-	public LocalDateTime lembrete;
+	public LocalDateTime lembrete;*/
 
 	@Column(name="descricao")
 	public String descricao;
@@ -64,6 +60,7 @@ public class Tarefa {
 		this.id = id;
 	}
 	
+	/*
 	public LocalDateTime getLembrete() {
 		return lembrete;
 	}
@@ -79,6 +76,7 @@ public class Tarefa {
 	public void setDateCheck(LocalDateTime dateCheck) {
 		this.dateCheck = dateCheck;
 	}
+	*/
 	
 	public String getTitulo() {
 		return titulo;
