@@ -36,6 +36,7 @@ public class Tarefa {
 	public boolean check;
 	
 	@Column(name="date_check")
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date dateCheck;
 	
 	@Temporal(TemporalType.TIMESTAMP)
