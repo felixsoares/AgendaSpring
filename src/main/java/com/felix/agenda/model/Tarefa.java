@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -36,6 +38,7 @@ public class Tarefa {
 	@Column(name="date_check")
 	public Date dateCheck;
 	
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date lembrete;
 
 	public String descricao;
