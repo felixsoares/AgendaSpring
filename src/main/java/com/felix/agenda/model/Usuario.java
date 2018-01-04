@@ -8,6 +8,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
@@ -23,6 +24,7 @@ public class Usuario {
 	public String nome;
 	
 	@NotNull
+	@Type(type = "org.hibernate.type.NumericBooleanType")
 	public boolean ativo;
 	
 	@NotBlank
