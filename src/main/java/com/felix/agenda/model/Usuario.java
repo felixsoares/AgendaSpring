@@ -1,13 +1,17 @@
 package com.felix.agenda.model;
 
+import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.felix.agenda.util.BooleanToYNStringConverter;
 
 @Entity
 @Table(name = "usuario")
@@ -21,8 +25,9 @@ public class Usuario {
 	@NotBlank
 	public String nome;
 	
-	@NotNull
-	public boolean ativo;
+	@Column(name="ativo", length=1)
+	@Convert(converter=BooleanToYNStringConverter.class)
+	public Boolean ativo;
 	
 	@NotBlank
 	public String username;
